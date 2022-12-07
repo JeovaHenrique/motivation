@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.exemplo.motivation.R
 import com.exemplo.motivation.constants.Constants
+import com.exemplo.motivation.data.Mock
 import com.exemplo.motivation.databinding.ActivityMainBinding
 import com.exemplo.motivation.infra.SecurityPreference
 
@@ -13,7 +14,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var mBinding: ActivityMainBinding
     private lateinit var securityPreference: SecurityPreference
-    private var category = 0
+    private var category = Constants.FILTER.ALL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +24,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         supportActionBar?.hide()
 
         handleUserName()
+        handleFilter(R.id.image_all)
+        handleNextPhrase()
 
         mBinding.buttonNewPhrase.setOnClickListener(this)
         mBinding.imageAll.setOnClickListener(this)
@@ -34,8 +37,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
+            R.id.button_save -> handleNextPhrase()
             R.id.image_all, R.id.image_happy, R.id.image_sunny -> handleFilter(v.id)
         }
+    }
+
+    private fun handleNextPhrase() {
+      mBinding.textPhrase.text = Mock().getPhrase(category)
     }
 
     private fun handleUserName() {
